@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "2070822655",
+    "firebase_url": "https://plannus-98f85.firebaseio.com",
+    "project_id": "plannus-98f85",
+    "storage_bucket": "plannus-98f85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2070822655:android:10a67bca8a26784e0056ca",
+        "android_client_info": {
+          "package_name": "com.example.plannusapk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2070822655-iep02tm5v93ts3ashhkf014dcn3p51ki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClQsAv5rrGzXaKhOc0I85OIdoZVLYukQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2070822655-iep02tm5v93ts3ashhkf014dcn3p51ki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
