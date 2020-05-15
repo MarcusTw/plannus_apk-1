@@ -18,6 +18,7 @@ class _RegisterState extends State<Register> {
   final AuthService auth = AuthService();
   final formKey = GlobalKey<FormState>(); // 'id' of form
   bool loading = false;
+
   // text field state
   String email = '';
   String password = '';
@@ -26,15 +27,17 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return loading ?  Loading() : Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.black54,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.black54,
         elevation: 0.0,
-        title: Text('Sign up to planNUS'),
+        title: Text('Sign up'),
         actions: <Widget>[
           FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Sign in'),
+            icon: Icon(Icons.person, color: Colors.white),
+            label: Text('Sign in',
+              style: new TextStyle(color: Colors.white),
+            ),
             onPressed: () {
               widget.toggleView();
             },
@@ -47,6 +50,7 @@ class _RegisterState extends State<Register> {
           key: formKey, // keep track of form and its state
           child : Column (
             children: <Widget>[
+              Image.asset('assets/planNUS.png', height: 250, width: 250),
               SizedBox(height: 20),
               TextFormField(
                 // copyWith method to pass in a specific property into decoration for the font field

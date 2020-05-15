@@ -11,6 +11,7 @@ class SignIn extends StatefulWidget {
 
   @override
   _SignInState createState() => _SignInState();
+
 }
 
 class _SignInState extends State<SignIn> {
@@ -24,18 +25,22 @@ class _SignInState extends State<SignIn> {
   String password = '';
   String error = '';
 
+
+
+
   @override
   Widget build(BuildContext context) {
-    return loading ?  Loading() : Scaffold(
-      backgroundColor: Colors.grey,
+    return loading ? Loading() : Scaffold(
+      backgroundColor: Colors.black54,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.black54,
         elevation: 0.0,
-        title: Text('Sign into planNUS'),
         actions: <Widget>[
           FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Register'),
+            icon: Icon(Icons.person, color: Colors.white),
+            label: Text('Register',
+              style: new TextStyle(color: Colors.white),
+            ),
             onPressed: () {
               widget.toggleView();
             },
@@ -48,6 +53,7 @@ class _SignInState extends State<SignIn> {
           key: formKey,
           child : Column (
             children: <Widget>[
+              Image.asset('assets/planNUS.png', height: 250, width: 250),
               SizedBox(height: 20),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Email'),
@@ -85,10 +91,31 @@ class _SignInState extends State<SignIn> {
                   }
                 },
               ),
+              SizedBox(height: 5),
+              RaisedButton(
+                color: Colors.pinkAccent,
+                child: Text("Login with Google",
+                  style : TextStyle(color: Colors.white
+                  ),
+                ),
+                hoverElevation: 1.0,
+                hoverColor: Colors.greenAccent,
+                onPressed: () async {
+                  setState(() => loading = true);
+                  dynamic result = await auth.login();
+                  print(result);
+                  if (result == null) {
+                    setState(() {
+                      error = 'FAILED TO SIGN IN!';
+                      loading = false;
+                    });
+                  }
+                },
+              ),
               SizedBox(height: 12),
               Text(
                 error,
-                style: TextStyle(color: Colors.red, fontSize: 14),
+                style: TextStyle(color: Colors.red, fontSize: 16),
               ),
             ],
           ),
