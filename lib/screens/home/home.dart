@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:plannusapk/services/auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Home extends StatelessWidget {
 
   final AuthService auth = AuthService();
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class Home extends StatelessWidget {
               style: TextStyle(color: Colors.yellow)
             ),
             onPressed: () async{
-              await auth.signOut();
+              await auth.googleSignIn.isSignedIn() ? auth.googleSignIn.signOut() : auth.signOut();
             },
           )
         ],

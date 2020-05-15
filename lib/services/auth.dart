@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plannusapk/models/user.dart';
 
 class AuthService {
 
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
+  final GoogleSignIn googleSignIn = new GoogleSignIn();
+
 
   // create user obj based on FireBase User
   User userFromFirebaseUser(FirebaseUser user) {
@@ -12,7 +16,22 @@ class AuthService {
 
   // auth change user stream
   Stream<User> get user {
-    return auth.onAuthStateChanged.map(userFromFirebaseUser);
+    return _auth.onAuthStateChanged.map(userFromFirebaseUser);
+  }
+
+  Future login() async {
+    try{
+      GoogleSignInAccount user = await googleSignIn.signIn();
+      GoogleSignInAuthentication gsa = await user.authentication;
+      final AuthCredential credential = GoogleAuthProvider
+          .getCredential(idToken: gsa.idToken, accessToken: gsa.accessToken);
+      AuthResult temp = await _auth.signInWithCredential(credential);
+      FirebaseUser curr = temp.user;
+      return userFromFirebaseUser(curr);
+    } catch (err){
+      print(err);
+      return null;
+    }
   }
 
   // sign in anon
@@ -20,7 +39,7 @@ class AuthService {
     // try and sign in, return user if found,
     // else catch the error when logging then return null
     try {
-      AuthResult result = await auth.signInAnonymously();
+      AuthResult result = await _auth.signInAnonymously();
       FirebaseUser user = result.user;
       return userFromFirebaseUser(user);
     } catch (e) {
@@ -32,7 +51,7 @@ class AuthService {
   // sign in with email & password
   Future signInWithEmailAndPassword(String email, String password) async{
     try { // sign in
-      AuthResult result = await auth.signInWithEmailAndPassword(email: email, password: password);
+      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       return userFromFirebaseUser(user);
     } catch (e) { // else return null
@@ -44,7 +63,7 @@ class AuthService {
   // register with email & password
   Future registerWithEmailAndPassword(String email, String password) async{
     try { // registration
-      AuthResult result = await auth.createUserWithEmailAndPassword(email: email, password: password);
+      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       return userFromFirebaseUser(user);
     } catch (e) { // else return null
@@ -56,7 +75,7 @@ class AuthService {
   // sign out
   Future signOut() async {
     try {
-      return await auth.signOut();
+      return await _auth.signOut();
     } catch(e) {
       print(e.toString());
       return null;
