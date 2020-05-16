@@ -5,9 +5,8 @@ import 'package:plannusapk/models/user.dart';
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
-  final GoogleSignIn googleSignIn = new GoogleSignIn();
 
+  final GoogleSignIn googleSignIn = new GoogleSignIn();
 
   // create user obj based on FireBase User
   User userFromFirebaseUser(FirebaseUser user) {
@@ -75,8 +74,18 @@ class AuthService {
   // sign out
   Future signOut() async {
     try {
-      return await _auth.signOut();
+      return await googleSignIn.signOut();
     } catch(e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  // google sign out
+  Future googleSignOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (e) {
       print(e.toString());
       return null;
     }

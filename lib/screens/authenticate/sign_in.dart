@@ -104,7 +104,7 @@ class _SignInState extends State<SignIn> {
                   setState(() => loading = true);
                   dynamic result = await auth.login();
                   print(result);
-                  if (result == null) {
+                  if (result == null || result == false) {
                     setState(() {
                       error = 'FAILED TO SIGN IN!';
                       loading = false;
