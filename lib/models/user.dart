@@ -1,7 +1,6 @@
 import 'day_schedule.dart';
 
 class User {
-
   final String uid;
   User({  this.uid  });
   DayScheduleWidget timetable;
@@ -10,7 +9,6 @@ class User {
   void init() {
     timetable = new DayScheduleWidget();
   }
-
 }
 
 class UserData {
@@ -20,5 +18,5 @@ class UserData {
   UserData.fromMap(Map<String, dynamic> data) {
     name = data['name'];
     handle = data['handle'];
-  }
+}
 }
