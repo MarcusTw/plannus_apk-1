@@ -90,10 +90,6 @@ class _RegisterState extends State<Register> {
                   onPressed: () async {
                     if(formKey.currentState.validate()) {
                       // checking whether content in form is valid
-                      Map<String, String> userInfoMap = {
-                        "email": email,
-                        "handle" : handle
-                      };
                       setState(() => loading = true);
                       dynamic result = await auth.registerWithEmailAndPassword(email, password, handle);
                       if (result == null) {
