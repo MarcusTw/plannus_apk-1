@@ -70,7 +70,7 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       // create a new collection for the user with id on firebase database
-      await DatabaseMethods(uid: user.uid).updateUserData('', handle);
+      await DatabaseMethods(uid: user.uid).addUserData(email, '', handle);
       return userFromFirebaseUser(user);
     } catch (e) { // else return null
       print(e.toString());
