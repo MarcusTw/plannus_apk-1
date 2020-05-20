@@ -99,64 +99,70 @@ class TimeTableWidgetState extends State<TimeTableWidget> {
           )
         ],
       ),
-      body: Column(
-        children: <Widget> [
-        Row(
-          children: [
-            SizedBox(width: 32.5),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            children: <Widget> [
             Row(
-            children: TimeTable.days.map((day) => Row(
-              children: <Widget> [
-                SizedBox(width: 6.0),
-                SizedBox(
-                  width: 50.0,
-                  child: Card(
-                    color: Colors.amberAccent,
-                    child: Text(
-                      day,
-                      textAlign: TextAlign.center,
+              children: [
+                SizedBox(width: 32.5),
+                Row(
+                children: TimeTable.days.map((day) => Row(
+                  children: <Widget> [
+                    SizedBox(width: 6.0),
+                    SizedBox(
+                      width: 50.0,
+                      child: Card(
+                        color: Colors.amberAccent,
+                        child: Text(
+                          day,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
                     ),
-                  )
-                ),
-              ],
-            )).toList()
-          ),]
-        ),
-       Column(
-         children: [
+                  ],
+                )).toList()
+              ),]
+            ),
            Column(
-             children: ScheduleTiming.allSlots.map((slot) => Container(
-               color: Colors.white30,
-                child: Column(
-                  children: [
-                    Row(
-                     children: [
-                       SizedBox(width: 2.5),
-                       Card(
-                         color: Colors.blue,
-                         child: Column(
-                           children: [
-                             Text(ScheduleTime(time: slot.start).toString(), style: TextStyle(fontSize: 10.0)),
-                             Text("-", style: TextStyle(fontSize: 12.0)),
-                             Text(ScheduleTime(time: slot.end).toString(), style: TextStyle(fontSize: 10.0)),
-                           ]
+             children: [
+               Column(
+                 children: ScheduleTiming.allSlots.map((slot) => Container(
+                   color: Colors.white30,
+                    child: Column(
+                      children: [
+                        Row(
+                         children: [
+                           SizedBox(width: 2.5),
+                           Card(
+                             color: Colors.blue,
+                             child: Column(
+                               children: [
+                                 Text(ScheduleTime(time: slot.start).toString(), style: TextStyle(fontSize: 10.0)),
+                                 Text("-", style: TextStyle(fontSize: 12.0)),
+                                 Text(ScheduleTime(time: slot.end).toString(), style: TextStyle(fontSize: 10.0)),
+                               ]
+                             ),
+                           ),
+                           Row(
+                             children: tt.timetable.values.map((ds) => Row(children: [ SizedBox(width: 6.0),
+                                 ds.scheduler[slot.toString()].weeklyActivityTemplate()])).toList()
+                           ),
+                          ],
                          ),
-                       ),
-                       Row(
-                         children: tt.timetable.values.map((ds) => Row(children: [ SizedBox(width: 6.0),
-                             ds.scheduler[slot.toString()].weeklyActivityTemplate()])).toList()
-                       ),
-                      ],
-                     ),
-                    SizedBox(height: 12),
-                    ]
+                        SizedBox(height: 12),
+                        ]
+                      ),
+                    )
+                   ).toList(),
                   ),
-                )
-               ).toList(),
-              ),
-              ]
-             ),
-          ],
-    ));
+                  ]
+                 ),
+            ],
+    ),
+        ),
+      ));
   }
 }

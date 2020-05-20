@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:plannusapk/messages/database.dart';
 import 'package:plannusapk/models/user.dart';
 
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
   final GoogleSignIn googleSignIn = new GoogleSignIn();
 
 
@@ -21,15 +21,18 @@ class AuthService {
 
   Future login() async {
     try{
-      GoogleSignInAccount user = await googleSignIn.signIn();
-      GoogleSignInAuthentication gsa = await user.authentication;
-      final AuthCredential credential = GoogleAuthProvider
-          .getCredential(idToken: gsa.idToken, accessToken: gsa.accessToken);
-      AuthResult temp = await _auth.signInWithCredential(credential);
-      FirebaseUser curr = temp.user;
-      return userFromFirebaseUser(curr);
+        GoogleSignInAccount user = await googleSignIn.signIn();
+        GoogleSignInAuthentication gsa = await user.authentication;
+        final AuthCredential credential = GoogleAuthProvider
+            .getCredential(idToken: gsa.idToken, accessToken: gsa.accessToken);
+        AuthResult temp = await _auth.signInWithCredential(credential);
+        FirebaseUser curr = temp.user;
+        print("true");
+        //await DatabaseMethods(uid: curr.uid).updateUserData('', '@changeHandle');
+        return userFromFirebaseUser(curr);
     } catch (err){
       print(err);
+      print("null from login");
       return null;
     }
   }
@@ -53,6 +56,7 @@ class AuthService {
     try { // sign in
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+      print(user.uid);
       return userFromFirebaseUser(user);
     } catch (e) { // else return null
       print(e.toString());
@@ -61,10 +65,12 @@ class AuthService {
   }
 
   // register with email & password
-  Future registerWithEmailAndPassword(String email, String password) async{
+  Future registerWithEmailAndPassword(String email, String password, String handle) async{
     try { // registration
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+      // create a new collection for the user with id on firebase database
+      await DatabaseMethods(uid: user.uid).updateUserData('', handle);
       return userFromFirebaseUser(user);
     } catch (e) { // else return null
       print(e.toString());
@@ -81,4 +87,15 @@ class AuthService {
       return null;
     }
   }
+
+  // google sign out
+  Future googleSignOut() async {
+    try {
+      return await googleSignIn.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
 }
