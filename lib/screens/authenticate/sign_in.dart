@@ -11,7 +11,6 @@ class SignIn extends StatefulWidget {
 
   @override
   _SignInState createState() => _SignInState();
-
 }
 
 class _SignInState extends State<SignIn> {
@@ -26,8 +25,6 @@ class _SignInState extends State<SignIn> {
   String error = '';
 
 
-
-
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
@@ -39,7 +36,7 @@ class _SignInState extends State<SignIn> {
           FlatButton.icon(
             icon: Icon(Icons.person, color: Colors.white),
             label: Text('Register',
-              style: new TextStyle(color: Colors.white),
+            style: new TextStyle(color: Colors.white),
             ),
             onPressed: () {
               widget.toggleView();
@@ -56,7 +53,7 @@ class _SignInState extends State<SignIn> {
               Image.asset('assets/planNUS.png', height: 250, width: 250),
               SizedBox(height: 20),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Email'),
+                decoration: textInputDecorationProfile.copyWith(hintText: 'Email'),
                 validator: (val) => val.isEmpty ? 'Enter an email' : null,
                 onChanged: (val) {
                   setState(() => email = val);
@@ -64,7 +61,7 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Password'),
+                decoration: textInputDecorationPassword.copyWith(hintText: 'Password'),
                 obscureText: true,
                 validator: (val) => val.length < 6 ? 'Enter a longer password!' : null,
                 onChanged: (val) {
@@ -82,7 +79,7 @@ class _SignInState extends State<SignIn> {
                   if(formKey.currentState.validate()) {
                     setState(() => loading = true);
                     dynamic result = await auth.signInWithEmailAndPassword(email, password);
-                    if (result == null) {
+                    if (result == null ) {
                       setState(() {
                         error = 'FAILED TO SIGN IN!';
                         loading = false;
@@ -95,22 +92,23 @@ class _SignInState extends State<SignIn> {
               RaisedButton(
                 color: Colors.pinkAccent,
                 child: Text("Login with Google",
-                  style : TextStyle(color: Colors.white
-                  ),
+                    style : TextStyle(color: Colors.white
+                    ),
                 ),
-                hoverElevation: 1.0,
-                hoverColor: Colors.greenAccent,
-                onPressed: () async {
-                  setState(() => loading = true);
-                  dynamic result = await auth.login();
-                  print(result);
-                  if (result == null || result == false) {
-                    setState(() {
-                      error = 'FAILED TO SIGN IN!';
-                      loading = false;
-                    });
-                  }
-                },
+                  hoverElevation: 1.0,
+                  hoverColor: Colors.greenAccent,
+                  onPressed: () async {
+                    //setState(() => loading = true);
+                    setState(() => loading = true);
+                    print("here");
+                    dynamic result = await auth.login();
+                    if (result == null || result == false) {
+                      setState(() {
+                        error = 'FAILED TO SIGN IN!';
+                        loading = false;
+                      });
+                    }
+                  },
               ),
               SizedBox(height: 12),
               Text(
