@@ -24,7 +24,6 @@ class _HomeState extends State<Home> {
     Scaffold(backgroundColor: Colors.yellow),
     Messages(),
     Profile(),
-    //Scaffold(backgroundColor: Colors.pinkAccent)
   ];
 
   @override
