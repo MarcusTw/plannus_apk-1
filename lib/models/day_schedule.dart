@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'activity.dart';
 import 'schedule_time.dart';
-import 'daily_event_adder.dart';
 
-void main() => runApp(MaterialApp(
-  home: DayScheduleWidget(ds: new DaySchedule()),
-));
+//void main() => runApp(MaterialApp(
+//  home: DayScheduleWidget(ds: new DaySchedule()),
+//));
 
 class DaySchedule {
   static final List<ScheduleTime> startTimes = ScheduleTime.startTimeList;
@@ -28,7 +27,6 @@ class DaySchedule {
     allTimings[10].toString() : Activity.noActivity(allTimings[10]),
     allTimings[11].toString() : Activity.noActivity(allTimings[11]),
     };
-
 
   Widget dsWidget() {
     return DayScheduleWidget(ds: this);
@@ -82,36 +80,6 @@ class DayScheduleWidgetState extends State<DayScheduleWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {
-          },
-        ),
-        title: Text(
-            "planNUS",
-        textAlign: TextAlign.center
-        ),
-        actions: <Widget> [
-          IconButton(
-            icon: Icon(Icons.add),
-            tooltip: 'Add Activity',
-            onPressed: () async {
-              List x = await Navigator.push(context, MaterialPageRoute(
-                builder: (context) => DailyEventAdder()
-              ));
-              setState(() {
-                alter(x[0], x[1].time, x[2].time, x[3]);
-              });
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-            },
-          )
-        ],
-      ),
       body: ListView(
         children: ds.scheduler.values.map((s) => s.dailyActivityTemplate()).toList(),
       )
