@@ -1,16 +1,20 @@
-import 'day_schedule.dart';
+import 'timetable.dart';
 
 class User {
-
   final String uid;
-  User({  this.uid  });
-  DayScheduleWidget timetable;
-  int phoneNumber = 93268245;
+  TimeTable timetable;
+  int phoneNumber;
   bool schedule = false;
-  void init() {
-    timetable = new DayScheduleWidget();
-  }
+  bool initial = true;
 
+  User({this.uid});
+
+  void init() {
+    if (initial) {
+      timetable = new TimeTable();
+      initial = false;
+    }
+  }
 }
 
 class UserData {
