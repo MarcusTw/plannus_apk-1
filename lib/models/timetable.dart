@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:plannusapk/models/schedule_time.dart';
 import 'day_schedule.dart';
-import 'weekly_event_adder.dart';
 
-void main() => runApp(MaterialApp(
-  home: TimeTableWidget(tt: new TimeTable()),
-));
+//void main() => runApp(MaterialApp(
+//  home: TimeTableWidget(tt: new TimeTable()),
+//));
 
 class TimeTable {
   static List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  Map<String, DaySchedule> timetable = {
-    'Mon' : DaySchedule(),
-    'Tue' : DaySchedule(),
-    'Wed' : DaySchedule(),
-    'Thu' : DaySchedule(),
-    'Fri' : DaySchedule(),
-    'Sat' : DaySchedule(),
-    'Sun' : DaySchedule(),
-  };
+  Map<String, DaySchedule> timetable;
+
+  TimeTable() {
+    timetable = {
+      'Mon' : DaySchedule(),
+      'Tue' : DaySchedule(),
+      'Wed' : DaySchedule(),
+      'Thu' : DaySchedule(),
+      'Fri' : DaySchedule(),
+      'Sat' : DaySchedule(),
+      'Sun' : DaySchedule(),
+    };
+  }
 
   Widget timeTableWidget() {
     return TimeTableWidget(tt: this);
+  }
+
+  void alter(String day, String bName, ScheduleTime bStart, ScheduleTime bEnd, bool isImportant) {
+    int s = bStart.time;
+    int e = bEnd.time;
+    while (s < e) {
+      ScheduleTiming t = ScheduleTiming(s);
+      timetable[day].scheduler[t.toString()].alter(bName);
+      if (isImportant) { timetable[day].scheduler[t.toString()].toggleImportant(); }
+      else { timetable[day].scheduler[t.toString()].toggleNotImportant(); }
+      s += 100;
+    }
   }
 }
 
@@ -54,115 +69,73 @@ class TimeTableWidgetState extends State<TimeTableWidget> {
     }
   }
 
-  void alter(String day, String bName, int bStart, int bEnd, bool isImportant) {
-    int s = bStart;
-    int e = bEnd;
-    while (s < e) {
-      ScheduleTiming t = ScheduleTiming(s);
-      tt.timetable[day].scheduler[t.toString()].alter(bName);
-      if (isImportant) { tt.timetable[day].scheduler[t.toString()].toggleImportant(); }
-      else { tt.timetable[day].scheduler[t.toString()].toggleNotImportant(); }
-      s += 100;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {
-          },
-        ),
-        title: Text(
-            "planNUS",
-            textAlign: TextAlign.center
-        ),
-        actions: <Widget> [
-          IconButton(
-            icon: Icon(Icons.add),
-            tooltip: 'Add Activity',
-            onPressed: () async {
-              List x = await Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => WeeklyEventAdder()
-              ));
-              setState(() {
-                alter(x[4], x[0], x[1].time, x[2].time, x[3]);
-              });
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-            },
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Column(
-            children: <Widget> [
-            Row(
-              children: [
-                SizedBox(width: 32.5),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Column(
+              children: <Widget> [
                 Row(
-                children: TimeTable.days.map((day) => Row(
-                  children: <Widget> [
-                    SizedBox(width: 6.0),
-                    SizedBox(
-                      width: 50.0,
-                      child: Card(
-                        color: Colors.amberAccent,
-                        child: Text(
-                          day,
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    ),
-                  ],
-                )).toList()
-              ),]
-            ),
-           Column(
-             children: [
-               Column(
-                 children: ScheduleTiming.allSlots.map((slot) => Container(
-                   color: Colors.white30,
-                    child: Column(
-                      children: [
-                        Row(
-                         children: [
-                           SizedBox(width: 2.5),
-                           Card(
-                             color: Colors.blue,
-                             child: Column(
-                               children: [
-                                 Text(ScheduleTime(time: slot.start).toString(), style: TextStyle(fontSize: 10.0)),
-                                 Text("-", style: TextStyle(fontSize: 12.0)),
-                                 Text(ScheduleTime(time: slot.end).toString(), style: TextStyle(fontSize: 10.0)),
-                               ]
-                             ),
-                           ),
-                           Row(
-                             children: tt.timetable.values.map((ds) => Row(children: [ SizedBox(width: 6.0),
-                                 ds.scheduler[slot.toString()].weeklyActivityTemplate()])).toList()
-                           ),
-                          ],
-                         ),
-                        SizedBox(height: 12),
-                        ]
+                    children: [
+                      SizedBox(width: 32.5),
+                      Row(
+                          children: TimeTable.days.map((day) => Row(
+                            children: <Widget> [
+                              SizedBox(width: 6.0),
+                              SizedBox(
+                                  width: 50.0,
+                                  child: Card(
+                                    color: Colors.amberAccent,
+                                    child: Text(
+                                      day,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                              ),
+                            ],
+                          )).toList()
+                      ),]
+                ),
+                Column(
+                    children: [
+                      Column(
+                        children: ScheduleTiming.allSlots.map((slot) => Container(
+                          color: Colors.white30,
+                          child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(width: 2.5),
+                                    Card(
+                                      color: Colors.blue,
+                                      child: Column(
+                                          children: [
+                                            Text(ScheduleTime(time: slot.start).toString(), style: TextStyle(fontSize: 10.0)),
+                                            Text("-", style: TextStyle(fontSize: 12.0)),
+                                            Text(ScheduleTime(time: slot.end).toString(), style: TextStyle(fontSize: 10.0)),
+                                          ]
+                                      ),
+                                    ),
+                                    Row(
+                                        children: tt.timetable.values.map((ds) => Row(children: [ SizedBox(width: 6.0),
+                                          ds.scheduler[slot.toString()].weeklyActivityTemplate()])).toList()
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 12),
+                              ]
+                          ),
+                        )
+                        ).toList(),
                       ),
-                    )
-                   ).toList(),
-                  ),
-                  ]
-                 ),
-            ],
-    ),
-        ),
-      ));
+                    ]
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
