@@ -12,13 +12,13 @@ class TimeTable {
 
   TimeTable() {
     timetable = {
-      'Mon' : DaySchedule(),
-      'Tue' : DaySchedule(),
-      'Wed' : DaySchedule(),
-      'Thu' : DaySchedule(),
-      'Fri' : DaySchedule(),
-      'Sat' : DaySchedule(),
-      'Sun' : DaySchedule(),
+    'Mon' : DaySchedule(),
+    'Tue' : DaySchedule(),
+    'Wed' : DaySchedule(),
+    'Thu' : DaySchedule(),
+    'Fri' : DaySchedule(),
+    'Sat' : DaySchedule(),
+    'Sun' : DaySchedule(),
     };
   }
 
