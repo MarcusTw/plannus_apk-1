@@ -26,13 +26,25 @@ class _ProfileState extends State<Profile> {
   QuerySnapshot currentUser;
 
 
-  profileName(String uid) {
-    databaseMethods
+  profileName(String uid) async{
+    await databaseMethods
         .getHandleByEmail(uid)
         .then((value) => {
       setState(() => handle = value['handle'])
     });
   }
+  displayHandle() async {
+    await auth.googleSignIn.isSignedIn() ? profileName(AuthService.googleUserId)
+        : profileName(AuthService.currentUser.uid);
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    displayHandle();
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +143,11 @@ class _ProfileState extends State<Profile> {
                         onPressed: () async {
                           //print(handle);
                           if(formKey.currentState.validate()) {
-                            //print(handle);
-                            await databaseMethods.updateSpecificUserData(user.uid, name, handle);
+                            print(AuthService.googleUserId);
+                            await auth.googleSignIn.isSignedIn() ?
+                            await databaseMethods.updateSpecificUserData(AuthService.googleUserId, name, handle)
+                                : await databaseMethods.updateSpecificUserData(
+                                user.uid, name, handle);
                             setState(() {
                               error = 'Update successful!';
                               key = handle;

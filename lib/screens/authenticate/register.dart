@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plannusapk/messages/database.dart';
+import 'package:plannusapk/messages/helperfunctions.dart';
 import 'package:plannusapk/services/auth.dart';
 import 'package:plannusapk/shared/constants.dart';
 import 'package:plannusapk/shared/loading.dart';
@@ -97,6 +98,11 @@ class _RegisterState extends State<Register> {
                           error = 'Input valid email & password!';
                           loading = false;
                         });
+                      } else {
+                        HelperFunctions.saveUserLoggedInSharedPreferences(true);
+                        HelperFunctions.saveUserEmailSharedPreferences(email);
+                        HelperFunctions.saveUsernameSharedPreferences('');
+                        HelperFunctions.saveUserHandleSharedPreferences(handle);
                       }
                     }
                   },

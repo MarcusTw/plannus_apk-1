@@ -82,7 +82,16 @@ class _HomeState extends State<Home> {
               style: TextStyle(color: Colors.yellow)
             ),
               onPressed: () async {
-                await auth.googleSignIn.isSignedIn() ? auth.googleSignOut() : auth.signOut();
+                await auth.googleSignIn.isSignedIn().then((value) async {
+                  if (value) {
+                    AuthService.googleSignInAccount = null;
+                    AuthService.googleUserId = null;
+                    await auth.googleSignOut();
+                  } else {
+                    AuthService.currentUser = null;
+                    await auth.signOut();
+                  }
+                });
               }
           )
         ],

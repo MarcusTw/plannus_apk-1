@@ -21,8 +21,5 @@ class UserData {
    String uid;
    String name;
    String handle;
-  UserData.fromMap(Map<String, dynamic> data) {
-    name = data['name'];
-    handle = data['handle'];
-  }
+   UserData({this.name, this.handle});
 }

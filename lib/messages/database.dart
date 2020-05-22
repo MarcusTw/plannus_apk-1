@@ -21,16 +21,9 @@ class DatabaseMethods {
 
   Future<void> addUserData(String email, String name, String handle) async {
     print(uid);
+
     return await users.document(uid).setData({
       'email' : email,
-      'name' : name,
-      'handle' : handle,
-    });
-  }
-
-  Future<void> updateUserProfile(String name, String handle) async {
-    print(uid);
-    return await users.document(uid).updateData({
       'name' : name,
       'handle' : handle,
     });
@@ -45,13 +38,6 @@ class DatabaseMethods {
     });
   }
 
-  Future<Set<Set<String>>> getUserData() {
-    return users.document(uid).get().then((value) => {
-      if (value.exists) {
-        value.data['handle']
-      }
-    });
-  }
 
   Future<String> getSpecificUserData(String uid) async {
     String user;
@@ -62,22 +48,20 @@ class DatabaseMethods {
     return user;
   }
 
-//  void getSpecificUserData(String uid, String capture) async {
-//    DocumentSnapshot snapshot =  await users.document(uid).get();
-//    capture = snapshot.data['handle'];
-//    print(capture);
-//  }
-
-//  Future<String> retrieveData(String uid) async {
-//    DocumentSnapshot snap = await users.document(uid).get().then()
-//  }
 
   uploadUserInfo(userMap) {
     Firestore.instance.collection("users").add(userMap);
   }
 
-  Future<QuerySnapshot> getUserByUsername(String handle) async {
+  Future<QuerySnapshot> getUserByHandle(String handle) async {
     return await users.where("handle", isEqualTo: handle).getDocuments();
+  }
+  Future<QuerySnapshot> getUserByName(String name) async {
+    return await users.where("name", isEqualTo: name).getDocuments();
+  }
+
+  Future<QuerySnapshot> getUserByUserEmail(String email) async {
+    return await users.where("email", isEqualTo: email).getDocuments();
   }
 
   Future<DocumentSnapshot> getHandleByEmail(String uid) async {
@@ -87,6 +71,16 @@ class DatabaseMethods {
   // user data from snapshot
   Stream<QuerySnapshot> get userInfo {
     return users.snapshots();
+  }
+
+  createChatRoom(String chatRoomId, chatRoomMap){
+    Firestore.instance
+        .collection("ChatRoom")
+        .document(chatRoomId)
+        .setData(chatRoomMap)
+        .catchError((onError){
+      print(onError.toString());
+    });
   }
 
 }

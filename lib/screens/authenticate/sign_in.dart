@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:plannusapk/messages/database.dart';
+import 'package:plannusapk/messages/helperfunctions.dart';
 import 'package:plannusapk/services/auth.dart';
 import 'package:plannusapk/shared/constants.dart';
 import 'package:plannusapk/shared/loading.dart';
@@ -78,6 +81,17 @@ class _SignInState extends State<SignIn> {
                   ),
                   onPressed: () async {
                     if(formKey.currentState.validate()) {
+                      QuerySnapshot userInfoSnapshot;
+                      if(formKey.currentState.validate()) {
+                      HelperFunctions.saveUserEmailSharedPreferences(email);
+                      DatabaseMethods().getUserByUserEmail(email).then((value) {
+                      userInfoSnapshot = value;
+                      HelperFunctions
+                          .saveUsernameSharedPreferences(userInfoSnapshot.documents[0].data["name"]);
+                      print(userInfoSnapshot.documents[0].data["name"]);
+                      HelperFunctions
+                          .saveUserHandleSharedPreferences(userInfoSnapshot.documents[0].data["handle"]);
+                      });
                       setState(() => loading = true);
                       dynamic result = await auth.signInWithEmailAndPassword(email, password);
                       if (result == null ) {
@@ -85,6 +99,9 @@ class _SignInState extends State<SignIn> {
                           error = 'FAILED TO SIGN IN!';
                           loading = false;
                         });
+                      } else {
+                        HelperFunctions.saveUserLoggedInSharedPreferences(true);
+                      }
                       }
                     }
                   },
@@ -108,6 +125,8 @@ class _SignInState extends State<SignIn> {
                           error = 'FAILED TO SIGN IN!';
                           loading = false;
                         });
+                      } else {
+                        auth.createProfileForGoogleAccounts();
                       }
                     },
                 ),

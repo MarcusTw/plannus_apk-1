@@ -11,32 +11,13 @@ class Messages extends StatefulWidget {
 
 class _MessagesState extends State<Messages> {
 
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _titleController = new TextEditingController();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home : Scaffold(
-//        appBar: AppBar(
-//          title: Text("Direct"),
-//          backgroundColor: Colors.black54,
-//          elevation: 0.0,
-//          actions: <Widget>[
-//            FlatButton.icon(
-//                icon: Icon(Icons.textsms,
-//                  color: Colors.black,
-//                ),
-//                label: Text('Compose',
-//                    style: TextStyle(
-//                    color: Colors.black,
-//                        fontStyle: FontStyle.normal)
-//                ),
-//                onPressed: () async {
-//
-//                }
-//            )
-//          ],
-//        ),
       body: Center(
         child: Column(
           children: <Widget>[
