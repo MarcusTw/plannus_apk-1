@@ -8,7 +8,7 @@ const textInputDecorationProfile = InputDecoration(
       borderSide: BorderSide(color: Colors.white, width: 2),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.pink, width: 2),
+      borderSide: BorderSide(color: Colors.deepPurple, width: 2),
     )
 );
 
@@ -20,7 +20,7 @@ const textInputDecorationPassword = InputDecoration(
       borderSide: BorderSide(color: Colors.white, width: 2),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.pink, width: 2),
+      borderSide: BorderSide(color: Colors.deepPurple, width: 2),
     )
 );
 
@@ -32,6 +32,6 @@ const textInputDecorationEmail = InputDecoration(
       borderSide: BorderSide(color: Colors.white, width: 2),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.pink, width: 2),
+      borderSide: BorderSide(color: Colors.deepPurple, width: 2),
     )
 );

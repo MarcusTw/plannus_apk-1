@@ -5,6 +5,7 @@ import 'package:plannusapk/messages/helperfunctions.dart';
 import 'package:plannusapk/services/auth.dart';
 import 'package:plannusapk/shared/constants.dart';
 import 'package:plannusapk/shared/loading.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SignIn extends StatefulWidget {
 
@@ -33,7 +34,7 @@ class _SignInState extends State<SignIn> {
     return loading ? Loading() : Scaffold(
       backgroundColor: Colors.black54,
       appBar: AppBar(
-        backgroundColor: Colors.black54,
+        backgroundColor: Colors.deepPurpleAccent,
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
@@ -50,34 +51,52 @@ class _SignInState extends State<SignIn> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.deepPurpleAccent, Colors.amber[200], Colors.deepPurple],
+            ),
+          ),
           child: Form(
             key: formKey,
             child : Column (
               children: <Widget>[
-                Image.asset('assets/planNUS.png', height: 250, width: 250),
+                Image.asset('assets/planNUS.png', height: 250, width: 300),
                 SizedBox(height: 20),
-                TextFormField(
-                  decoration: textInputDecorationProfile.copyWith(hintText: 'Email'),
-                  validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                  onChanged: (val) {
-                    setState(() => email = val);
-                  },
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: TextFormField(
+                    decoration: textInputDecorationProfile.copyWith(hintText: 'Email'),
+                    validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                    onChanged: (val) {
+                      setState(() => email = val);
+                    },
+                  ),
                 ),
                 SizedBox(height: 20),
-                TextFormField(
-                  decoration: textInputDecorationPassword.copyWith(hintText: 'Password'),
-                  obscureText: true,
-                  validator: (val) => val.length < 6 ? 'Enter a longer password!' : null,
-                  onChanged: (val) {
-                    setState(() => password = val);
-                  },
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: TextFormField(
+                    decoration: textInputDecorationPassword.copyWith(hintText: 'Password'),
+                    obscureText: true,
+                    validator: (val) => val.length < 6 ? 'Enter a longer password!' : null,
+                    onChanged: (val) {
+                      setState(() => password = val);
+                    },
+                  ),
                 ),
                 SizedBox(height: 20),
                 RaisedButton(
                   color: Colors.amberAccent,
-                  child: Text(
-                    'Sign in',
-                    style: TextStyle(color: Colors.white),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 51),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.white,
+                    highlightColor: Colors.black,
+                    child: Text(
+                      'Sign in',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   onPressed: () async {
                     if(formKey.currentState.validate()) {
@@ -109,9 +128,13 @@ class _SignInState extends State<SignIn> {
                 SizedBox(height: 5),
                 RaisedButton(
                   color: Colors.pinkAccent,
-                  child: Text("Login with Google",
-                      style : TextStyle(color: Colors.white
-                      ),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.white,
+                    highlightColor: Colors.black,
+                    child: Text("Login with Google",
+                        style : TextStyle(color: Colors.white
+                        ),
+                    ),
                   ),
                     hoverElevation: 1.0,
                     hoverColor: Colors.greenAccent,
