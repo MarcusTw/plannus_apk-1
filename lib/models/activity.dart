@@ -7,11 +7,13 @@ class Activity {
   String name;
   ScheduleTiming slot;
   bool isImportant = false;
+  bool isFinish = false;
 
   Activity(String name, ScheduleTiming slot) {
     this.name = name;
     this.slot = slot;
   }
+
   static Activity noActivity(ScheduleTiming slot) {
     return new Activity(nil, slot);
   }

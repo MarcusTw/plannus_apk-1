@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:plannusapk/models/schedule_time.dart';
 import 'day_schedule.dart';
 
-//void main() => runApp(MaterialApp(
-//  home: TimeTableWidget(tt: new TimeTable()),
-//));
-
 class TimeTable {
   static List<String> days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  Map<String, DaySchedule> timetable;
+  static List<int> weekdays = [1, 2, 3, 4, 5, 6, 7];
+  Map<int, DaySchedule> timetable;
 
   TimeTable() {
     timetable = {
-    'Mon' : DaySchedule(),
-    'Tue' : DaySchedule(),
-    'Wed' : DaySchedule(),
-    'Thu' : DaySchedule(),
-    'Fri' : DaySchedule(),
-    'Sat' : DaySchedule(),
-    'Sun' : DaySchedule(),
+    1 : DaySchedule(),
+    2 : DaySchedule(),
+    3 : DaySchedule(),
+    4 : DaySchedule(),
+    5 : DaySchedule(),
+    6 : DaySchedule(),
+    7 : DaySchedule(),
     };
   }
 

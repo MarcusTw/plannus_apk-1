@@ -4,6 +4,7 @@ import 'package:plannusapk/messages/database.dart';
 import 'package:plannusapk/models/user.dart';
 import 'package:plannusapk/services/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -71,27 +72,32 @@ class _ProfileState extends State<Profile> {
 //    for (var doc in userData.documents) {
 //      print(doc.data);
 //    }
-    return StreamProvider<QuerySnapshot>.value(
-      value: databaseMethods.users.snapshots(),
-      child: new Scaffold(
-        appBar: AppBar(
-          title: Text("Welcome, " + handle,
-              style: TextStyle(color: Colors.black)
-          ),
-          elevation: 0,
-          backgroundColor: Colors.white,
+    return new Scaffold(
+      appBar: AppBar(
+        title: Text("Welcome, " + handle,
+            style: TextStyle(color: Colors.black)
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-            child: Form(
-              key: formKey, // keep track of form and its state
-              child : Column (
-                children: <Widget>[
-                  Image.asset('assets/profilepicture.png', height: 300, width: 300),
-                  SizedBox(height: 20),
-                  TextFormField(
+        elevation: 0,
+        backgroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.deepPurpleAccent, Colors.white70, Colors.deepPurple],
+            ),
+          ),
+          child: Form(
+            key: formKey, // keep track of form and its state
+            child : Column (
+              children: <Widget>[
+                Image.asset('assets/profilepicture.png', height: 300, width: 300),
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: TextFormField(
                     decoration: InputDecoration(
                         hintText: 'Name',
                         icon: Icon(Icons.person_outline, color: Colors.blue),
@@ -109,8 +115,11 @@ class _ProfileState extends State<Profile> {
                       setState(() => name = val);
                     },
                   ),
-                  SizedBox(height: 20),
-                  TextFormField(
+                ),
+                SizedBox(height: 20),
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: TextFormField(
                     decoration: InputDecoration(
                         hintText: 'Handle',
                         icon: Icon(Icons.alternate_email, color: Colors.blue),
@@ -130,40 +139,44 @@ class _ProfileState extends State<Profile> {
                       //print(handle);
                     },
                   ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget> [
-                      RaisedButton(
-                        color: Colors.blueAccent,
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget> [
+                    RaisedButton(
+                      color: Colors.blueAccent,
+                      child: Shimmer.fromColors(
+                        highlightColor: Colors.black,
+                        baseColor: Colors.white,
                         child: Text(
                           'Update',
                           style: TextStyle(color: Colors.white),
                         ),
-                        onPressed: () async {
-                          //print(handle);
-                          if(formKey.currentState.validate()) {
-                            print(AuthService.googleUserId);
-                            await auth.googleSignIn.isSignedIn() ?
-                            await databaseMethods.updateSpecificUserData(AuthService.googleUserId, name, handle)
-                                : await databaseMethods.updateSpecificUserData(
-                                user.uid, name, handle);
-                            setState(() {
-                              error = 'Update successful!';
-                              key = handle;
-                            });
-                          }
-                        },
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 12),
-                  Text(
-                    error,
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  )
-                ],
-              ),
+                      onPressed: () async {
+                        //print(handle);
+                        if(formKey.currentState.validate()) {
+                          print(AuthService.googleUserId);
+                          await auth.googleSignIn.isSignedIn() ?
+                          await databaseMethods.updateSpecificUserData(AuthService.googleUserId, name, handle)
+                              : await databaseMethods.updateSpecificUserData(
+                              user.uid, name, handle);
+                          setState(() {
+                            error = 'Update successful!';
+                            key = handle;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Text(
+                  error,
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                )
+              ],
             ),
           ),
         ),

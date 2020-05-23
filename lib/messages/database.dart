@@ -3,7 +3,6 @@ import 'package:plannusapk/models/user.dart';
 
 class DatabaseMethods {
 
-
   final String uid;
   DatabaseMethods({this.uid});
 

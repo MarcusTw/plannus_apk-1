@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:plannusapk/models/day_schedule.dart';
 import 'package:plannusapk/models/timetable.dart';
+import 'package:plannusapk/models/todo/todo_main.dart';
 import 'package:plannusapk/models/user.dart';
 import 'package:plannusapk/models/weekly_event_adder.dart';
 import 'package:plannusapk/screens/home/messages.dart';
 import 'package:plannusapk/screens/home/profile.dart';
 import 'package:plannusapk/services/auth.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
@@ -22,7 +24,7 @@ class _HomeState extends State<Home> {
     this.user = user;
     this.user.init();
     this.tabs = [
-      Scaffold(backgroundColor: Colors.deepOrangeAccent[100], body: DayScheduleWidget(ds: user.timetable.timetable['Mon'])), //home
+      Scaffold(backgroundColor: Colors.deepOrangeAccent[100], body: MyApp()), //home
       Scaffold(backgroundColor: Colors.yellow, body: TimeTableWidget(tt: user.timetable)),
       Messages(),
       Profile(),
@@ -38,6 +40,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: true,
       home: Scaffold(
       backgroundColor: Colors.deepPurple,
       appBar: AppBar(

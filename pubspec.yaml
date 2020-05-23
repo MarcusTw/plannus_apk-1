@@ -25,11 +25,17 @@ dependencies:
     sdk: flutter
   cloud_firestore: ^0.13.5
   firebase_auth: ^0.16.0
-  provider: ^4.1.1
+  provider: ^4.1.2
   flutter_spinkit: ^4.1.2
   google_sign_in: ^4.4.6
   bottom_navy_bar: ^5.4.0
   shared_preferences: ^0.5.7+2
+<<<<<<< HEAD
+  intl: ^0.15.8
+  moor_flutter: ^1.6.0
+=======
+  shimmer: ^1.1.1
+>>>>>>> d040210ca3d00797d906b9cfac02f3eb4906f864
 
 
   # The following adds the Cupertino Icons font to your application.

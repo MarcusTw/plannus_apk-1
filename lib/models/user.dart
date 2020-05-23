@@ -2,7 +2,7 @@ import 'timetable.dart';
 
 class User {
   final String uid;
-  TimeTable timetable;
+  TimeTable timetable = new TimeTable();
   int phoneNumber;
   bool schedule = false;
   bool initial = true;
