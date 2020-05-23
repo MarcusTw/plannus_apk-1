@@ -4,6 +4,7 @@ import 'package:plannusapk/messages/helperfunctions.dart';
 import 'package:plannusapk/services/auth.dart';
 import 'package:plannusapk/shared/constants.dart';
 import 'package:plannusapk/shared/loading.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Register extends StatefulWidget {
 
@@ -33,7 +34,7 @@ class _RegisterState extends State<Register> {
     return loading ?  Loading() : Scaffold(
       backgroundColor: Colors.black54,
       appBar: AppBar(
-        backgroundColor: Colors.black54,
+        backgroundColor: Colors.black,
         elevation: 0.0,
         title: Text('Sign up'),
         actions: <Widget>[
@@ -50,43 +51,64 @@ class _RegisterState extends State<Register> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.amber[100], Colors.deepPurpleAccent, Colors.amber[100]],
+            ),
+          ),
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
           child: Form(
             key: formKey, // keep track of form and its state
             child : Column (
               children: <Widget>[
-                Image.asset('assets/planNUS.png', height: 250, width: 250),
+                Image.asset('assets/planNUS.png', height: 250, width: 300),
                 SizedBox(height: 20),
-                TextFormField(
-                decoration: textInputDecorationProfile.copyWith(hintText: 'Email'),
-                validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                onChanged: (val) {
-                  setState(() => email = val);
-                  },
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: TextFormField(
+                  decoration: textInputDecorationProfile.copyWith(hintText: 'Email'),
+                  validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                  onChanged: (val) {
+                    setState(() => email = val);
+                    },
+                  ),
                 ),
                 SizedBox(height: 20),
-                TextFormField(
-                  decoration: textInputDecorationPassword.copyWith(hintText: 'Password'),
-                  obscureText: true,
-                  validator: (val) => val.length < 6 ? 'Enter a longer password!' : null,
-                  onChanged: (val) {
-                    setState(() => password = val);
-                  },
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: TextFormField(
+                    decoration: textInputDecorationPassword.copyWith(hintText: 'Password'),
+                    obscureText: true,
+                    validator: (val) => val.length < 6 ? 'Enter a longer password!' : null,
+                    onChanged: (val) {
+                      setState(() => password = val);
+                    },
+                  ),
                 ),
                 SizedBox(height: 20),
-                TextFormField(
-                  decoration: textInputDecorationEmail.copyWith(hintText: 'Handle (Start with @)'),
-                  validator: (val) => val.isEmpty || val[0] != '@' ? 'Invalid Handle!' : null,
-                  onChanged: (val) {
-                    setState(() => handle = val);
-                  },
+                Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: TextFormField(
+                    decoration: textInputDecorationEmail.copyWith(hintText: 'Handle (Start with @)'),
+                    validator: (val) => val.isEmpty || val[0] != '@' ? 'Invalid Handle!' : null,
+                    onChanged: (val) {
+                      setState(() => handle = val);
+                    },
+                  ),
                 ),
                 SizedBox(height: 20),
                 RaisedButton(
                   color: Colors.amberAccent,
-                  child: Text(
-                    'Register',
-                    style: TextStyle(color: Colors.white),
+                  padding: EdgeInsets.symmetric(vertical: 0, horizontal: 45),
+                  child: Shimmer.fromColors(
+                    highlightColor: Colors.black,
+                    baseColor: Colors.white,
+                    child: Text(
+                      'Register',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   onPressed: () async {
                     if(formKey.currentState.validate()) {
