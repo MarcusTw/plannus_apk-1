@@ -8,17 +8,23 @@ import 'package:plannusapk/models/todo/pages/event_page.dart';
 import 'package:plannusapk/models/todo/pages/task_page.dart';
 import 'package:plannusapk/models/todo/widgets/custom_button.dart';
 
-void main() => runApp(MyApp());
+void main(context) => runApp(Provider<User>.value(
+    value: Provider.of<User>(context),
+    child: ToDoWidget(context)));
 
-class MyApp extends StatelessWidget {
+class ToDoWidget extends StatelessWidget {
   // This widget is the root of your application.
+  BuildContext context;
+  ToDoWidget(this.context);
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return MultiProvider(
       providers: [ChangeNotifierProvider<ToDoDatabase>(create: (context) => ToDoDatabase())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'planNUS',
         theme: ThemeData(primarySwatch: Colors.red, fontFamily: "Montserrat"),
         home: MyHomePage(),
       ),

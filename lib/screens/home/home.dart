@@ -11,20 +11,21 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 
 class Home extends StatefulWidget {
-  Home({Key key, this.title}) : super(key: key);
+  Home({Key key, this.title, this.context}) : super(key: key);
   final String title;
+  final BuildContext context;
   @override
-  _HomeState createState() => _HomeState(new User());
+  _HomeState createState() => _HomeState(new User(), context);
 }
 class _HomeState extends State<Home> {
   User user;
   var tabs = [];
 
-  _HomeState(User user) {
+  _HomeState(User user, BuildContext context) {
     this.user = user;
     this.user.init();
     this.tabs = [
-      Scaffold(backgroundColor: Colors.deepOrangeAccent[100], body: MyApp()), //home
+      Scaffold(backgroundColor: Colors.deepOrangeAccent[100], body: ToDoWidget(context)), //home
       Scaffold(backgroundColor: Colors.yellow, body: TimeTableWidget(tt: user.timetable)),
       Messages(),
       Profile(),

@@ -30,8 +30,12 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   @override
   Widget build(BuildContext context) {
-    ToDoDatabase provider = Provider.of<ToDoDatabase>(context);
-
+    ToDoDatabase prov;
+    try {
+      prov = Provider.of<ToDoDatabase>(context);
+    } catch (e) {
+      prov = new ToDoDatabase();
+    }
     _textTaskControler.clear();
     return Padding(
       padding: const EdgeInsets.all(24.0),
@@ -65,7 +69,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               if (_textTaskControler.text == "") {
                 print("data not found");
               } else {
-                provider
+                prov
                     .insertTodoEntries(new TodoData(
                     date: _selectedDate,
                     time: DateTime.now(),

@@ -5,7 +5,9 @@ import 'package:plannusapk/messages/helperfunctions.dart';
 import 'package:plannusapk/services/auth.dart';
 import 'package:plannusapk/shared/constants.dart';
 import 'package:plannusapk/shared/loading.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:plannusapk/models/user.dart';
 
 class SignIn extends StatefulWidget {
 
@@ -31,6 +33,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<User>(context);
     return loading ? Loading() : Scaffold(
       backgroundColor: Colors.black54,
       appBar: AppBar(
