@@ -54,7 +54,7 @@ class AuthService {
     } catch (e) {
       print(e.toString());
       print(AuthService.googleUserId + " at exception");
-      await DatabaseMethods(uid: AuthService.googleUserId).addUserData(
+      await DatabaseMethods(uid: AuthService.googleUserId).createNewUserData( //#######changed method######//
           AuthService.googleSignInAccount.email,
           AuthService.googleSignInAccount.displayName, '');
     }
@@ -94,7 +94,7 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       // create a new collection for the user with id on firebase database
-      await DatabaseMethods(uid: user.uid).addUserData(email, '', handle);
+      await DatabaseMethods(uid: user.uid).createNewUserData(email, '', handle); //#######changed method######//
       currentUser = user;
       return userFromFirebaseUser(user);
     } catch (e) { // else return null

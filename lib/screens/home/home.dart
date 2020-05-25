@@ -7,20 +7,19 @@ import 'package:plannusapk/screens/home/messages.dart';
 import 'package:plannusapk/screens/home/profile.dart';
 import 'package:plannusapk/services/auth.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.title}) : super(key: key);
   final String title;
   @override
-  _HomeState createState() => _HomeState(new User());
+  _HomeState createState() => _HomeState();
 }
 class _HomeState extends State<Home> {
   User user;
   var tabs = [];
 
-  _HomeState(User user) {
-    this.user = user;
-    this.user.init();
+  _HomeState() {
     this.tabs = [
       Scaffold(backgroundColor: Colors.deepOrangeAccent[100], body: DayScheduleWidget(ds: user.timetable.timetable['Mon'])), //home
       Scaffold(backgroundColor: Colors.yellow, body: TimeTableWidget(tt: user.timetable)),
@@ -37,6 +36,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<User>(context);
+    user.init();
     return MaterialApp(
       home: Scaffold(
       backgroundColor: Colors.deepPurple,

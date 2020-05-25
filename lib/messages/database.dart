@@ -1,27 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:plannusapk/models/schedule_time.dart';
+import 'package:plannusapk/models/timetable.dart';
 import 'package:plannusapk/models/user.dart';
+import 'package:plannusapk/models/activity.dart';
 
 class DatabaseMethods {
-
 
   final String uid;
   DatabaseMethods({this.uid});
 
   final CollectionReference users = Firestore.instance.collection("users");
 
-
-  Future<void> updateUserData(String email, String name, String handle) async {
+  Future<void> createNewUserData(String email, String name, String handle) async {
     print(uid);
     return await users.document(uid).updateData({
       'email' : email,
       'name' : name,
       'handle' : handle,
+      'timetable' : TimeTable()
     });
   }
 
+//  Future<void> updateUserData(String email, String name, String handle) async { //duplicate code
+//    print(uid);
+//    return await users.document(uid).updateData({
+//      'email' : email,
+//      'name' : name,
+//      'handle' : handle,
+//    });
+//  }
+
   Future<void> addUserData(String email, String name, String handle) async {
     print(uid);
-
     return await users.document(uid).setData({
       'email' : email,
       'name' : name,
@@ -48,6 +58,11 @@ class DatabaseMethods {
     return user;
   }
 
+  Future<void> updateSchedule(String day, String bName, ScheduleTime bStart, ScheduleTime bEnd, bool isImportant) async {
+    return await users.document(uid).get().then((value) => {
+      value['timetable'].alter(day, bName, bStart, bEnd, isImportant)
+    });
+  }
 
   uploadUserInfo(userMap) {
     Firestore.instance.collection("users").add(userMap);

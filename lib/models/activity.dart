@@ -121,28 +121,27 @@ class WeeklyActivityCardState extends State<WeeklyActivityCard> {
 
 }
 
-
-
 class DailyActivityCard extends StatefulWidget {
   final Activity activity;
   DailyActivityCard({ this.activity });
 
+  Activity getActivity() { return activity;}
+
   @override
   DailyActivityState createState() {
     // TODO: implement createState
-    return DailyActivityState(this.activity);
+    return DailyActivityState();
   }
 }
 
 class DailyActivityState extends State<DailyActivityCard> {
-  Activity a;
-  DailyActivityState(Activity a) { this.a = a;}
-
-
+//  Activity a;
+//  DailyActivityState(Activity a) { this.a = a;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    Activity a = widget.activity;
     return Card(
        margin: EdgeInsets.fromLTRB(16.0, 8, 16.0, 8),
        child: Row(
@@ -185,6 +184,7 @@ class DailyActivityState extends State<DailyActivityCard> {
   var _tapPosition;
 
   _showPopupMenu() async {
+    Activity a = widget.activity;
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     await showMenu(
       context: context,
